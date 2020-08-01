@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+}
+
+.desk {
+    /*background: greenyellow;*/
+    min-width: 1400px;
+    min-height: 800px;
+
+    background-image: url("img/alberta-2297204_1920.jpg");
+    background-repeat: no-repeat;
+}
+
+.cover {
+    min-height: 800px;
+    position: relative;
+    /*background: hsla(0, 0%, 100%, 0.3);*/
+}
