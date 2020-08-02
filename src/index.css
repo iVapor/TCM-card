@@ -2,7 +2,7 @@ body {
     margin: 0;
     width:28px;
     height:24px;
-    font-size:14px;
+    font-size:12px;
 
     font-family:SFUIDisplay-Light,SFUIDisplay;
     color:rgba(68,68,79,1);
@@ -43,7 +43,7 @@ h1 {
     width: 152px;
     height: 228px;
     background:rgba(255,255,255,1);
-    box-shadow:4px 4px 12px 0px rgb(255 255 255 / 75%);
+    box-shadow:4px 4px 12px 0px rgba(255,255,255,0.75);
     border-radius:8px;
 }
 
@@ -56,8 +56,65 @@ h1 {
 .font-card {
     position: relative;
     padding: 10px;
-
+    cursor:
 }
+
+.num-container {
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    width: 18px;
+}
+
+.num-reverse {
+    position: absolute;
+    right: 6px;
+    bottom: 4px;
+    width: 18px;
+    transform: rotate(180deg);
+}
+
+.num-card {
+    text-align: center;
+    font-size:18px;
+    font-family:SFUIDisplay-Medium,SFUIDisplay;
+    font-weight:500;
+    color:rgba(23,23,37,1);
+    line-height:24px;
+}
+.color-card {
+    text-align: center;
+    margin-top: -6px;
+}
+
+.content-card {
+    cursor: default;
+    margin-top: 10px;
+    text-indent:20px;
+    height: 150px;
+    box-sizing: border-box;
+}
+
+.action-btn-container {
+    margin-top: 4px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.action-btn {
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(82, 82, 88);
+}
+
+.action-btn:hover {
+    cursor: pointer;
+    font-size: 14px;
+    /*font-weight: bold;*/
+    border-bottom: 1px solid #afafaf;
+    color: #232323;
+}
+
 .card-place {
     width: 152px;
     height: 228px;
