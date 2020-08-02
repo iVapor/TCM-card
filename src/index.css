@@ -1,18 +1,58 @@
 body {
     margin: 0;
+    width:28px;
+    height:24px;
+    font-size:14px;
+
+    font-family:SFUIDisplay-Light,SFUIDisplay;
+    color:rgba(68,68,79,1);
+    line-height:24px;
+    background-image: url("img/alberta-2297204_1920.jpg");
+    background-repeat: repeat;
 }
 
+h1 {
+    text-align: center;
+    padding-bottom: 20px;
+    color: white;
+}
 .desk {
     /*background: greenyellow;*/
     min-width: 1400px;
     min-height: 800px;
 
-    background-image: url("img/alberta-2297204_1920.jpg");
-    background-repeat: no-repeat;
+
 }
 
 .cover {
-    min-height: 800px;
     position: relative;
-    /*background: hsla(0, 0%, 100%, 0.3);*/
+    padding: 40px;
+    padding-top: 20px;
+    /*background: hsla(0, 0%, 100%, 0.62);*/
+}
+
+.card-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 20px;
+    grid-auto-rows: 152px;
+}
+
+.card-shape {
+    width: 152px;
+    height: 228px;
+    background:rgba(255,255,255,1);
+    box-shadow:0px 2px 12px 0px rgba(234, 232, 232, 0.04);
+    border-radius:8px;
+}
+
+.card-back {
+
+}
+
+.card-place {
+    width: 152px;
+    height: 228px;
+    border: 2px solid white;
+    border-radius:8px;
 }
