@@ -56,7 +56,7 @@ h1 {
 .font-card {
     position: relative;
     padding: 10px;
-    cursor:
+    cursor: default;
 }
 
 .num-container {
