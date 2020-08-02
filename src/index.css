@@ -7,7 +7,7 @@ body {
     font-family:SFUIDisplay-Light,SFUIDisplay;
     color:rgba(68,68,79,1);
     line-height:24px;
-    background-image: url("img/alberta-2297204_1920.jpg");
+    background-image: url("img/background_alberta.jpg");
     background-repeat: repeat;
 }
 
@@ -39,20 +39,32 @@ h1 {
 }
 
 .card-shape {
+    box-sizing: border-box;
     width: 152px;
     height: 228px;
     background:rgba(255,255,255,1);
-    box-shadow:0px 2px 12px 0px rgba(234, 232, 232, 0.04);
+    box-shadow:4px 4px 12px 0px rgb(255 255 255 / 75%);
     border-radius:8px;
 }
 
 .card-back {
-
+    background-image: url("img/lotus.jpg");
+    background-position: center;
+    background-size: cover;
 }
 
+.font-card {
+    position: relative;
+    padding: 10px;
+
+}
 .card-place {
     width: 152px;
     height: 228px;
     border: 2px solid white;
     border-radius:8px;
+}
+
+.icon_fangpian {
+    color: rgb(229, 0, 18);
 }
