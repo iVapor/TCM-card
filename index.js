@@ -4,9 +4,10 @@ const isCardList = (list, id) => {
     return list.indexOf(id) > -1
 }
 
-const createRandomId = () => {
-    let cardIndex =  Math.floor(Math.random() * Math.floor(52))
-    let cardId = questionList[cardIndex].id
+const createRandomId = (idList) => {
+    let cardIndex =  Math.floor(Math.random() * Math.floor(idList.length))
+    let cardId = idList[cardIndex]
+    idList.splice(cardIndex, 1)
 
     return cardId
 }
@@ -19,15 +20,13 @@ const createRandomId = () => {
 //     }
 // }
 
-const createCardList = (currentCard, length) => {
+
+const createCardList = (idList, length) => {
     let tempList = []
     for(let i = 0; i < length; i++) {
-        let id = createRandomId()
-        let hasAdd = isCardList(currentCard, id)
 
-        if (!hasAdd) {
-            tempList.push(id)
-        }
+        let id = createRandomId(idList)
+        tempList.push(id)
     }
 
     log('tempLIst', tempList)
@@ -35,13 +34,20 @@ const createCardList = (currentCard, length) => {
 }
 
 const initCard = () => {
-    let currentCard = []
     let lib = {
         repo : [],
         operateArea: [],
     }
 
+    let currentCard = questionList.map(item => item.id)
     let repo  = createCardList(currentCard, 30)
+
+    let operate = currentCard
+    Object.assign(lib, {
+        repo : repo,
+        operateArea: operate,
+    })
+
     return lib
 }
 
