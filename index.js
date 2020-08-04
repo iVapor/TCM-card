@@ -70,8 +70,30 @@ const valueStore = (data) => {
     window.operateArea = operate
 }
 
-const renderPage = () => {
+const cardEle = (index) => {
+    let ele = `
+    <div data-location=${ index } 
+        class="card-shape card-back"></div>
+    `
+    return ele
+}
 
+const renderOperateArea = () => {
+    let allEle = ''
+    let area = window.operateArea
+    for (let i = 0; i < area.length; i++) {
+        // let eachDesk = area[i]
+        let deskEle = cardEle(i)
+        allEle += deskEle
+    }
+
+    log('allEle', allEle)
+    let areaEle = eleSelector('.operate-area')
+    areaEle.insertAdjacentHTML('beforeend', allEle)
+}
+
+const renderPage = () => {
+    renderOperateArea()
 }
 
 const game = () => {

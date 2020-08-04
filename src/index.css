@@ -20,8 +20,6 @@ h1 {
     /*background: greenyellow;*/
     min-width: 1400px;
     min-height: 800px;
-
-
 }
 
 .cover {
@@ -116,6 +114,7 @@ h1 {
 }
 
 .card-place {
+    box-sizing: border-box;
     width: 152px;
     height: 228px;
     border: 2px solid white;
