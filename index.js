@@ -51,8 +51,14 @@ const initCard = () => {
     return lib
 }
 
+const renderPage = (data) => {
+    let { repo, operateArea } = data
+
+}
+
 const game = () => {
-    let card = initCard()
+    let cardData = initCard()
+    renderPage(cardData)
 }
 
 const createBackground = () => {
