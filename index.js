@@ -73,7 +73,7 @@ const valueStore = (data) => {
 const cardEle = (index) => {
     let ele = `
     <div data-location=${ index } 
-        class="card-shape card-back"></div>
+        class="operate-container"></div>
     `
     return ele
 }

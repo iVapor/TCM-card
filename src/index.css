@@ -55,6 +55,7 @@ h1 {
     position: relative;
     padding: 10px;
     cursor: default;
+    border: 1px solid #4d4c4cad;
 }
 
 .num-container {
@@ -94,7 +95,7 @@ h1 {
 }
 
 .action-btn-container {
-    margin-top: 4px;
+    margin-top: 18px;
     display: flex;
     justify-content: space-around;
 }
@@ -127,4 +128,15 @@ h1 {
 
 .operate-area {
     margin-top: 150px;
+}
+
+
+.operate-container {
+    width: 152px;
+    height: 228px;
+
+}
+
+.operate-container > .card-shape:not(:first-child) {
+    margin-top: -180px;
 }
