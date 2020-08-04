@@ -51,14 +51,33 @@ const initCard = () => {
     return lib
 }
 
-const renderPage = (data) => {
-    let { repo, operateArea } = data
+const valueStore = (data) => {
+    log('valueStore')
+    let { operateArea } = data
+    window.repo = data.repo
+    let operate = []
+
+    let cardCount = [ 2, 2, 2, 3, 4, 4, 5, ]
+    for (let i = 0; i < cardCount.length; i++) {
+        let each = cardCount[i]
+        let cardNum = createCardList(operateArea, each)
+
+        let card = new OperateCard(cardNum, [])
+        operate.push(card)
+    }
+
+    log('operate', operate)
+    window.operateArea = operate
+}
+
+const renderPage = () => {
 
 }
 
 const game = () => {
     let cardData = initCard()
-    renderPage(cardData)
+    valueStore(cardData)
+    renderPage()
 }
 
 const createBackground = () => {

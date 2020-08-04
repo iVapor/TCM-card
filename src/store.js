@@ -1,0 +1,2 @@
+window.repo = []
+window.operateArea = []
