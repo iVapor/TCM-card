@@ -14,7 +14,7 @@
         <h1>中医纸牌</h1>
         <div class="card-row">
             <div id="repo" class="card-shape card-back"></div>
-            <div class="font-card card-shape">
+            <div draggable="true" class="font-card card-shape">
                 <div class="num-container">
                     <div class="num-card">A</div>
                     <div class="color-card"><i class="iconfont icon_fangpian"></i></div>
@@ -41,10 +41,14 @@
         </div>
     </div>
 </div>
+
+<script src="lib/draggable-polyfill.js"></script>
 <script src="src/cardList.js"></script>
 <script src="src/tools.js"></script>
 <script src="src/store.js"></script>
+
 <script src="src/card.js"></script>
+<script src="src/action.js"></script>
 <script src="index.js"></script>
 </body>
 </html>

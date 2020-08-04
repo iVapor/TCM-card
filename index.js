@@ -87,7 +87,6 @@ const renderOperateArea = () => {
         allEle += deskEle
     }
 
-    log('allEle', allEle)
     let areaEle = eleSelector('.operate-area')
     areaEle.insertAdjacentHTML('beforeend', allEle)
 }
@@ -100,6 +99,7 @@ const game = () => {
     let cardData = initCard()
     valueStore(cardData)
     renderPage()
+    eventDelegation()
 }
 
 const createBackground = () => {
