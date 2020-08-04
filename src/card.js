@@ -1,8 +1,9 @@
 class OperateCard {
     // constructor
-    constructor(front, back) {
-        this.frontList = front;
-        this.backList = back;
+    constructor(front, back, order) {
+        this.frontList = front
+        this.backList = back
+        this.orderList = order
     }
 
     addFront(list) {

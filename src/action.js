@@ -1,7 +1,6 @@
 
 
-
-const eventDelegation = () => {
+const dragCard = () => {
     var dragged;
 
     document.addEventListener("dragstart", function( event ) {
@@ -37,4 +36,21 @@ const eventDelegation = () => {
         }
 
     }, false);
+}
+
+const showOperateCard = () => {
+    let areaEle = eleSelector('.operate-area')
+    bindEleEvent(areaEle, 'click', function (e) {
+        let target = e.target
+
+    })
+}
+
+const showCard = () => {
+    showOperateCard()
+}
+
+const eventDelegation = () => {
+    dragCard()
+    showCard()
 }
