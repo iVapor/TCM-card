@@ -70,10 +70,28 @@ const valueStore = (data) => {
     window.operateArea = operate
 }
 
-const cardEle = (index) => {
+const createOperateEle = (index, id) => {
+    let ele = `
+    <div data-location=${ index } data-id="${ id }"
+        class="card-shape card-back"></div>
+    `
+    return ele
+}
+
+const createOperateContainer = (index) => {
+    let cardClass = window.operateArea[index]
+    let frontList = cardClass.frontList
+
+    let allContainer = ''
+    for (let i = 0; i < frontList.length; i++) {
+        let eachCard = frontList[i]
+        let ele = createOperateEle(index, eachCard)
+        allContainer += ele
+    }
+
     let ele = `
     <div data-location=${ index } 
-        class="operate-container"></div>
+        class="operate-container">${ allContainer }</div>
     `
     return ele
 }
@@ -83,7 +101,7 @@ const renderOperateArea = () => {
     let area = window.operateArea
     for (let i = 0; i < area.length; i++) {
         // let eachDesk = area[i]
-        let deskEle = cardEle(i)
+        let deskEle = createOperateContainer(i)
         allEle += deskEle
     }
 

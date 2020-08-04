@@ -49,6 +49,7 @@ h1 {
     background-image: url("img/lotus.jpg");
     background-position: center;
     background-size: cover;
+    border: 1px solid #848282;
 }
 
 .font-card {
@@ -56,6 +57,7 @@ h1 {
     padding: 10px;
     cursor: default;
     border: 1px solid #4d4c4cad;
+    /*background:linear-gradient(225deg, rgb(229, 226, 217) 0%, rgb(243, 223, 189) 100%);*/
 }
 
 .num-container {
