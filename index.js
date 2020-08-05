@@ -135,8 +135,6 @@ const createOperateStack = (index) => {
     }
 
     let frontList = cardClass.frontList
-    log('createOperateContainer')
-    log('frontList', frontList)
     for (let j = 0; j < frontList.length; j++) {
         let eachCard = frontList[j]
         let ele = createOperateEle('front', index, eachCard)

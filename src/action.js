@@ -59,19 +59,32 @@ const renderOperateStack = (location, cardEle) => {
 }
 
 const showOperateBack = (location, id, cardEle) => {
-    removeOperateBack(location, id)
-    renderOperateStack(location, cardEle)
+    let CurrentStack = window.operateArea[location]
+    let { backList, frontList } = CurrentStack
+
+    let isLast = backList[backList.length - 1] === id
+    // 前面没有展开的卡片时，才能点击卡背面展开
+    let withoutWhite = frontList.length === 0
+
+    if (isLast && withoutWhite) {
+        removeOperateBack(location, id)
+        renderOperateStack(location, cardEle)
+    }
 }
 
 const showOperateCard = () => {
     let areaEle = eleSelector('.operate-area')
     bindEleEvent(areaEle, 'click', function (e) {
         let self = e.target
-        let { id, location } = self.dataset
+        let cardBack = self.classList.contains('card-back')
 
-        let cardId = parseInt(id)
-        let cardLocation = parseInt(location)
-        showOperateBack(cardLocation, cardId, self)
+        if (cardBack) {
+            let { id, location } = self.dataset
+            let cardId = parseInt(id)
+            let cardLocation = parseInt(location)
+            showOperateBack(cardLocation, cardId, self)
+        }
+
     })
 }
 
