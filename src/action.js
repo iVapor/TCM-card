@@ -3,9 +3,6 @@ const isRightPoint = (placeId, containerId) => {
     let placePoint = getCardData(placeId).point
     let containerPoint = getCardData(containerId).point
 
-    log('jplacePoint', placePoint)
-    log('containerPoint', containerPoint)
-
     let corrent = false
     if (containerPoint === '2') {
         corrent = placePoint === 'A'
@@ -21,7 +18,6 @@ const isRightPoint = (placeId, containerId) => {
         corrent = placeNum < containerNum
     }
 
-    log('corrent', corrent)
     return corrent
 }
 
@@ -54,14 +50,14 @@ const isRightPlace = (placeEle, container ) => {
         container.classList.contains("card-front")
     let isCardEle = area === 'operateArea' && cardContent
 
-    log('id', id, 'location', location)
     let placeId = placeEle.dataset.id
     let placeColor = placeEle.dataset.color
     let rightColor = isRightColor(placeColor, color)
 
     let rightNum = isRightPoint(parseInt(placeId), parseInt(id))
 
-    return isCardEle
+    let pass = true || isCardEle && rightColor && rightNum
+    return pass
 }
 
 const dragCard = () => {
@@ -100,8 +96,8 @@ const dragCard = () => {
         let placeCard = isRightPlace(dragged, self)
         if ( operateContainer || placeCard ) {
             event.target.style.background = ""
-            dragged.parentNode.removeChild( dragged )
-            self.appendChild( dragged )
+            dragged.parentNode.removeChild(dragged)
+            self.appendChild(dragged)
         }
 
         if (placeCard) {
@@ -111,10 +107,16 @@ const dragCard = () => {
             }
 
             event.target.style.background = ""
-            dragged.parentNode.removeChild( dragged )
+            dragged.parentNode.removeChild(dragged)
             // 牌堆容器
             let container = self.parentNode
-            container.appendChild( dragged )
+            container.appendChild(dragged)
+
+            let dragLocation = dragged.dataset.location
+            let dragId = dragged.dataset.id
+            log('dragId', dragId)
+            log('dragLocation', dragLocation)
+            removeOperateFront(dragLocation, dragId)
         }
 
     }, false);
@@ -122,7 +124,21 @@ const dragCard = () => {
 
 const removeOperateBack = (location, id) => {
     let CurrentStack = window.operateArea[location]
+    log('CurrentStack', CurrentStack)
     CurrentStack.openBack(id)
+    log('CurrentStack', CurrentStack)
+}
+
+const removeOperateFront = (location, id) => {
+    let CurrentStack = window.operateArea[location]
+    log('CurrentStack', CurrentStack)
+    CurrentStack.removeFront(id)
+    log('CurrentStack', CurrentStack)
+}
+
+const addOperateBack = (location, id) => {
+    let CurrentStack = window.operateArea[location]
+    CurrentStack.addFront(id)
 }
 
 /**

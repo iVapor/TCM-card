@@ -10,6 +10,12 @@ class OperateCard {
         let current = this.frontList.concat(list)
         return current
     }
+    removeFront(card) {
+        let index = this.frontList.findIndex(item => {
+            return item === card
+        })
+        this.frontList.splice(index, 1)
+    }
     openBack(card) {
         this.frontList.push(card)
 
