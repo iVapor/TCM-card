@@ -95,6 +95,41 @@ const changeDragData = (dragEle, placeEle) => {
     dragEle.dataset.location = placeLocation
 }
 
+const placeEmptyOperate = (dragEle, placeEle) => {
+    // 操作区域的卡牌容器
+    let operateContainer = placeEle.classList.contains("operate-container")
+    if ( operateContainer ) {
+        dragEle.parentNode.removeChild(dragEle)
+        placeEle.appendChild(dragEle)
+
+        changeDragData(dragEle, placeEle)
+        changeStackData(dragEle, placeEle)
+    }
+}
+
+/**
+ * 将卡牌移动到操作区域的卡牌上
+ * @param dragEle
+ * @param placeEle
+ */
+const placeOperateCard = (dragEle, placeEle) => {
+    let placeCard = isRightPlace(dragEle, placeEle)
+    if (placeCard) {
+        let placeContent = placeEle.classList.contains("content-card")
+        if (placeContent) {
+            placeEle = placeEle.parentNode
+        }
+
+        // event.target.style.background = ""
+        dragEle.parentNode.removeChild(dragEle)
+        // 牌堆容器
+        let container = placeEle.parentNode
+        container.appendChild(dragEle)
+        changeDragData(dragEle, placeEle)
+        changeStackData(dragEle, placeEle)
+    }
+}
+
 const dragCard = () => {
     var dragged;
 
@@ -104,13 +139,11 @@ const dragCard = () => {
         dragged = event.target;
         log('dragged', dragged)
         // 使其半透明
-        event.target.style.opacity = 0;
     }, false);
 
-    document.addEventListener("dragend", function( event ) {
-        // 重置透明度
-        event.target.style.opacity = "";
-    }, false);
+    // document.addEventListener("dragend", function( event ) {
+    //     // 重置透明度
+    // }, false);
 
     /* 放置目标元素时触发事件 */
     document.addEventListener("dragover", function( event ) {
@@ -123,32 +156,11 @@ const dragCard = () => {
         // 阻止默认动作（如打开一些元素的链接）
         event.preventDefault();
         // 将拖动的元素到所选择的放置目标节点中
-        let self = event.target
-        log('drop self',self, self.classList)
+        let placeEle = event.target
 
-        // 操作区域的卡牌容器
-        let operateContainer = self.classList.contains("operate-container")
-        let placeCard = isRightPlace(dragged, self)
-        if ( operateContainer ) {
-            event.target.style.background = ""
-            dragged.parentNode.removeChild(dragged)
-            self.appendChild(dragged)
-        }
+        placeEmptyOperate(dragged, placeEle)
 
-        if (placeCard) {
-            let placeContent = self.classList.contains("content-card")
-            if (placeContent) {
-                self = self.parentNode
-            }
-
-            // event.target.style.background = ""
-            dragged.parentNode.removeChild(dragged)
-            // 牌堆容器
-            let container = self.parentNode
-            container.appendChild(dragged)
-            changeDragData(dragged, self)
-            changeStackData(dragged, self)
-        }
+        placeOperateCard(dragged, placeEle)
 
     }, false);
 }
@@ -159,11 +171,8 @@ const removeOperateBack = (location, id) => {
 }
 
 const removeOperateFront = (location, id) => {
-    log('removeOperateBack')
     let CurrentStack = window.operateArea[location]
-    log('CurrentStack', CurrentStack)
     CurrentStack.removeFront(id)
-    log('CurrentStack', CurrentStack)
 }
 
 const removeRepo = (cardId) => {
