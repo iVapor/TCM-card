@@ -73,7 +73,7 @@ const showOperateBack = (location, id, cardEle) => {
 }
 
 const showOperateCard = () => {
-    let areaEle = eleSelector('.operate-area')
+    let areaEle = eleSelector('#operateArea')
     bindEleEvent(areaEle, 'click', function (e) {
         let self = e.target
         let cardBack = self.classList.contains('card-back')
@@ -84,12 +84,34 @@ const showOperateCard = () => {
             let cardLocation = parseInt(location)
             showOperateBack(cardLocation, cardId, self)
         }
+    })
+}
 
+const getRepoCard = () => {
+    let repo = window.repo
+    let lastIndex = repo.length - 1
+    let last = repo[lastIndex]
+
+    // 将最后一个元素移到首位
+    repo.splice(lastIndex, 1)
+    repo.unshift(last)
+
+    return last
+}
+const showDisplayCard = () => {
+    let areaEle = eleSelector('#repo')
+    bindEleEvent(areaEle, 'click', function (e) {
+        let displayArea = eleSelector('#displayArea')
+        let cardId = getRepoCard()
+
+        let cardFront = createFrontCard('displayArea', 0, cardId)
+        displayArea.innerHTML = cardFront
     })
 }
 
 const showCard = () => {
     showOperateCard()
+    showDisplayCard()
 }
 
 const eventDelegation = () => {

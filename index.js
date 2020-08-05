@@ -82,11 +82,20 @@ const getCardData = (cardId) => {
     return card
 }
 
-const createFrontCard = (index, id) => {
+/**
+ * 创建卡面
+ * @param area 卡牌在哪个区域。展示区域：displayArea，操作区域：operateArea，放置区域： displayArea
+ * @param location 卡牌在区域中的位置，展示区域： 0，操作区域：1 - 7，放置区域：0 - 3.
+ * @param id
+ * @return {string}
+ */
+const createFrontCard = (area, location, id) => {
     let cardData = getCardData(id)
 
     let ele = `
-    <div data-location=${index} data-id="${ cardData.id }"
+    <div data-location=${location} 
+        data-id="${ cardData.id }"
+        data-area="${ area }"
         draggable="true" 
         class="card-front card-shape">
         <div class="num-container">
@@ -116,7 +125,7 @@ const createOperateEle = (type, index, id) => {
     if (type === 'back') {
         ele = createBackCard(index, id)
     } else if (type === 'front') {
-        ele = createFrontCard(index, id)
+        ele = createFrontCard('operateArea', index, id)
     }
 
     return ele
@@ -163,7 +172,7 @@ const renderOperateArea = () => {
         allEle += deskEle
     }
 
-    let areaEle = eleSelector('.operate-area')
+    let areaEle = eleSelector('#operateArea')
     areaEle.insertAdjacentHTML('beforeend', allEle)
 }
 
