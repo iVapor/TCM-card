@@ -125,9 +125,26 @@ h1 {
     border-radius:8px;
 }
 
-.icon_diamond {
+.color-card .icon_diamond {
     color: rgb(229, 0, 18);
+    font-size: 14px;
 }
+
+.color-card .icon_heart {
+    color: rgb(229, 0, 18);
+    font-size: 20px;
+}
+
+.color-card .icon_spade {
+    color: #333333;
+    font-size: 20px;
+}
+
+.color-card .icon_club {
+    color: #333333;
+    font-size: 20px;
+}
+
 
 .operate-area {
     margin-top: 150px;
