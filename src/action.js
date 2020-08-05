@@ -1,4 +1,41 @@
 
+const isRightColor = (placeColor, containerColor) => {
+    let spade = placeColor === 'spade'
+    let heart = placeColor === 'heart'
+    let club = placeColor === 'club'
+    let diamond = placeColor === 'diamond'
+
+    let rightColor = false
+    if (spade || club) {
+        rightColor = containerColor === 'heart' || containerColor === 'diamond'
+    } else if (heart || diamond) {
+        rightColor = containerColor === 'spade' || containerColor === 'club'
+    }
+
+    return rightColor
+}
+
+const isRightPlace = (placeEle, container ) => {
+    // 放置到纸牌的内容上
+    let placeContent = container.classList.contains("content-card")
+    if (placeContent) {
+        container = container.parentNode
+    }
+
+    let { area, id, location, color } = container.dataset
+
+    let cardContent =
+        container.classList.contains("card-front")
+    let isCardEle = area === 'operateArea' && cardContent
+
+    log('id', id, 'location', location)
+    let placeId = placeEle.dataset.id
+    let placeColor = placeEle.dataset.color
+    let rightColor = isRightColor(placeColor, color)
+    log('rightColor', rightColor)
+
+    return isCardEle
+}
 
 const dragCard = () => {
     var dragged;
@@ -28,14 +65,29 @@ const dragCard = () => {
         // 阻止默认动作（如打开一些元素的链接）
         event.preventDefault();
         // 将拖动的元素到所选择的放置目标节点中
-        log('drop event.target', event.target)
+        let self = event.target
+        log('drop self',self, self.classList)
 
         // 操作区域的卡牌容器
-        let operateContainer = event.target.classList.includes("operate-container")
-        if ( operateContainer ) {
-            event.target.style.background = "";
-            dragged.parentNode.removeChild( dragged );
-            event.target.appendChild( dragged );
+        let operateContainer = self.classList.contains("operate-container")
+        let placeCard = isRightPlace(dragged, self)
+        if ( operateContainer || placeCard ) {
+            event.target.style.background = ""
+            dragged.parentNode.removeChild( dragged )
+            self.appendChild( dragged )
+        }
+
+        if (placeCard) {
+            let placeContent = self.classList.contains("content-card")
+            if (placeContent) {
+                self = self.parentNode
+            }
+
+            event.target.style.background = ""
+            dragged.parentNode.removeChild( dragged )
+            // 牌堆容器
+            let container = self.parentNode
+            container.appendChild( dragged )
         }
 
     }, false);

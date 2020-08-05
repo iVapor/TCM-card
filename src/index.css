@@ -15,6 +15,8 @@ h1 {
     text-align: center;
     padding-bottom: 20px;
     color: white;
+    font-size: 30px;
+    letter-spacing: 1rem;
 }
 .desk {
     /*background: greenyellow;*/
@@ -50,7 +52,6 @@ h1 {
     background-position: center;
     background-size: cover;
     border: 1px solid #848282;
-    cursor: pointer;
 }
 
 .card-front {
@@ -84,6 +85,11 @@ h1 {
     color:rgba(23,23,37,1);
     line-height:24px;
 }
+
+.red-text {
+    color: rgb(229, 0, 18);
+}
+
 .color-card {
     text-align: center;
     margin-top: -6px;

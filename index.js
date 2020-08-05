@@ -92,14 +92,18 @@ const getCardData = (cardId) => {
 const createFrontCard = (area, location, id) => {
     let cardData = getCardData(id)
 
+    let heartDiamond = cardData.type === 'heart' || cardData.type === 'diamond'
+    let redText =  heartDiamond ? 'red-text' : ''
+
     let ele = `
     <div data-location=${location} 
         data-id="${ cardData.id }"
         data-area="${ area }"
+        data-color="${ cardData.type }"
         draggable="true" 
         class="card-front card-shape">
         <div class="num-container">
-            <div class="num-card">${ cardData.point }</div>
+            <div class="num-card ${ redText }">${ cardData.point }</div>
             <div class="color-card">
                 <i class="iconfont icon_${ cardData.type }"></i>
             </div>
@@ -110,7 +114,7 @@ const createFrontCard = (area, location, id) => {
             <div class="action-btn">反驳</div>
         </div>
         <div class="num-reverse">
-            <div class="num-card">${ cardData.point }</div>
+            <div class="num-card ${ redText }">${ cardData.point }</div>
             <div class="color-card">
                 <i class="iconfont icon_${ cardData.type }"></i>
                 </div>
