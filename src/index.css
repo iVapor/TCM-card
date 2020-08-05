@@ -50,9 +50,10 @@ h1 {
     background-position: center;
     background-size: cover;
     border: 1px solid #848282;
+    cursor: pointer;
 }
 
-.font-card {
+.card-front {
     position: relative;
     padding: 10px;
     cursor: default;
@@ -97,9 +98,9 @@ h1 {
 }
 
 .action-btn-container {
-    margin-top: 18px;
     display: flex;
     justify-content: space-around;
+    margin: 18px 14px 0 14px;
 }
 
 .action-btn {
@@ -124,7 +125,7 @@ h1 {
     border-radius:8px;
 }
 
-.icon_fangpian {
+.icon_diamond {
     color: rgb(229, 0, 18);
 }
 

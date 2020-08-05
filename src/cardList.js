@@ -3,7 +3,7 @@
  * @type {{type: string}[]} spade 黑桃，heart:红桃，club: 梅花，diamond: 方片
  */
 
-const questionList = [{
+const cardList = [{
     id: 101,
     point: 'A',
     type: 'spade',

@@ -1,9 +1,9 @@
 class OperateCard {
     // constructor
-    constructor(front, back, order) {
+    constructor(front, back) {
+        // 展示的卡片一定是排好序的
         this.frontList = front
         this.backList = back
-        this.orderList = order
     }
 
     addFront(list) {

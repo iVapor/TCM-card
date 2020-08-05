@@ -29,7 +29,10 @@ const dragCard = () => {
         event.preventDefault();
         // 将拖动的元素到所选择的放置目标节点中
         log('drop event.target', event.target)
-        if ( event.target.classList.contains("operate-container")  ) {
+
+        // 操作区域的卡牌容器
+        let operateContainer = event.target.classList.includes("operate-container")
+        if ( operateContainer ) {
             event.target.style.background = "";
             dragged.parentNode.removeChild( dragged );
             event.target.appendChild( dragged );
@@ -38,11 +41,37 @@ const dragCard = () => {
     }, false);
 }
 
+const removeOperateBack = (location, id) => {
+    let CurrentStack = window.operateArea[location]
+    CurrentStack.openBack(id)
+}
+
+/**
+ * 渲染新的牌堆
+ * @param location 牌堆在操作区域的位置
+ * @param cardEle 牌堆的容器元素
+ */
+const renderOperateStack = (location, cardEle) => {
+    let container = cardEle.parentNode
+    container.innerHTML = ''
+    let stack = createOperateStack(location)
+    container.insertAdjacentHTML('beforeend', stack)
+}
+
+const showOperateBack = (location, id, cardEle) => {
+    removeOperateBack(location, id)
+    renderOperateStack(location, cardEle)
+}
+
 const showOperateCard = () => {
     let areaEle = eleSelector('.operate-area')
     bindEleEvent(areaEle, 'click', function (e) {
-        let target = e.target
+        let self = e.target
+        let { id, location } = self.dataset
 
+        let cardId = parseInt(id)
+        let cardLocation = parseInt(location)
+        showOperateBack(cardLocation, cardId, self)
     })
 }
 
