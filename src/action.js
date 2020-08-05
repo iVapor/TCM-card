@@ -37,27 +37,62 @@ const isRightColor = (placeColor, containerColor) => {
     return rightColor
 }
 
-const isRightPlace = (placeEle, container ) => {
+/**
+ * 判断两张卡牌能否堆叠
+ * @param dragEle 鼠标拖动的元素
+ * @param placeEle 被放置的元素
+ * @return {boolean|boolean}
+ */
+const isRightPlace = (dragEle, placeEle) => {
     // 放置到纸牌的内容上
-    let placeContent = container.classList.contains("content-card")
+    let placeContent = placeEle.classList.contains("content-card")
     if (placeContent) {
-        container = container.parentNode
+        placeEle = placeEle.parentNode
     }
 
-    let { area, id, location, color } = container.dataset
+    let { area, id, location, color } = placeEle.dataset
 
     let cardContent =
-        container.classList.contains("card-front")
+        placeEle.classList.contains("card-front")
     let isCardEle = area === 'operateArea' && cardContent
 
-    let placeId = placeEle.dataset.id
-    let placeColor = placeEle.dataset.color
+    let placeId = dragEle.dataset.id
+    let placeColor = dragEle.dataset.color
     let rightColor = isRightColor(placeColor, color)
 
     let rightNum = isRightPoint(parseInt(placeId), parseInt(id))
 
     let pass = true || isCardEle && rightColor && rightNum
     return pass
+}
+
+const changeStackData = (dragEle, placeEle) => {
+    let dragLocation = dragEle.dataset.location
+    let dragId = dragEle.dataset.id
+    let dragArea = dragEle.dataset.area
+    if (dragArea === 'operateArea') {
+        removeOperateFront(dragLocation, dragId)
+    } else if (dragArea === 'displayArea') {
+        removeRepo(dragId)
+    }
+
+
+    let placeId = placeEle.dataset.id
+    let placeLocation = placeEle.dataset.location
+    addOperateFront(placeLocation, placeId)
+}
+
+/**
+ * 改变拖动卡牌的区域和位置
+ * @param dragEle
+ * @param placeEle
+ */
+const changeDragData = (dragEle, placeEle) => {
+    let placeArea = placeEle.dataset.area
+    let placeLocation = placeEle.dataset.location
+
+    dragEle.dataset.area = placeArea
+    dragEle.dataset.location = placeLocation
 }
 
 const dragCard = () => {
@@ -94,7 +129,7 @@ const dragCard = () => {
         // 操作区域的卡牌容器
         let operateContainer = self.classList.contains("operate-container")
         let placeCard = isRightPlace(dragged, self)
-        if ( operateContainer || placeCard ) {
+        if ( operateContainer ) {
             event.target.style.background = ""
             dragged.parentNode.removeChild(dragged)
             self.appendChild(dragged)
@@ -106,17 +141,13 @@ const dragCard = () => {
                 self = self.parentNode
             }
 
-            event.target.style.background = ""
+            // event.target.style.background = ""
             dragged.parentNode.removeChild(dragged)
             // 牌堆容器
             let container = self.parentNode
             container.appendChild(dragged)
-
-            let dragLocation = dragged.dataset.location
-            let dragId = dragged.dataset.id
-            log('dragId', dragId)
-            log('dragLocation', dragLocation)
-            removeOperateFront(dragLocation, dragId)
+            changeDragData(dragged, self)
+            changeStackData(dragged, self)
         }
 
     }, false);
@@ -124,19 +155,24 @@ const dragCard = () => {
 
 const removeOperateBack = (location, id) => {
     let CurrentStack = window.operateArea[location]
-    log('CurrentStack', CurrentStack)
     CurrentStack.openBack(id)
-    log('CurrentStack', CurrentStack)
 }
 
 const removeOperateFront = (location, id) => {
+    log('removeOperateBack')
     let CurrentStack = window.operateArea[location]
     log('CurrentStack', CurrentStack)
     CurrentStack.removeFront(id)
     log('CurrentStack', CurrentStack)
 }
 
-const addOperateBack = (location, id) => {
+const removeRepo = (cardId) => {
+    let repo = window.repo
+    let cardIndex = repo.findIndex(item => item === cardId)
+    repo.splice(cardIndex, 1)
+}
+
+const addOperateFront = (location, id) => {
     let CurrentStack = window.operateArea[location]
     CurrentStack.addFront(id)
 }

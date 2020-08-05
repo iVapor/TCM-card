@@ -6,8 +6,8 @@ class OperateCard {
         this.backList = back
     }
 
-    addFront(list) {
-        let current = this.frontList.concat(list)
+    addFront(card) {
+        let current = this.frontList.push(card)
         return current
     }
     removeFront(card) {
