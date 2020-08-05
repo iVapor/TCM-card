@@ -141,16 +141,11 @@ const dragCard = () => {
         // 使其半透明
     }, false);
 
-    // document.addEventListener("dragend", function( event ) {
-    //     // 重置透明度
-    // }, false);
-
     /* 放置目标元素时触发事件 */
     document.addEventListener("dragover", function( event ) {
         // 阻止默认动作以启用drop
         event.preventDefault();
     }, false);
-
 
     document.addEventListener("drop", function( event ) {
         // 阻止默认动作（如打开一些元素的链接）
