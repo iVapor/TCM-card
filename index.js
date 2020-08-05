@@ -75,12 +75,6 @@ const createBackCard = (index, id) => {
     return ele
 }
 
-const getCardData = (cardId) => {
-    let cardIndex = cardList.findIndex(item => item.id === cardId)
-    let card = cardList[cardIndex]
-
-    return card
-}
 
 /**
  * 创建卡面

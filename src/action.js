@@ -1,4 +1,30 @@
 
+const isRightPoint = (placeId, containerId) => {
+    let placePoint = getCardData(placeId).point
+    let containerPoint = getCardData(containerId).point
+
+    log('jplacePoint', placePoint)
+    log('containerPoint', containerPoint)
+
+    let corrent = false
+    if (containerPoint === '2') {
+        corrent = placePoint === 'A'
+    } else if (containerPoint === 'J') {
+        corrent = placePoint === '10'
+    } else if (containerPoint === 'Q') {
+        corrent = placePoint === 'J'
+    } else if (containerPoint === 'K') {
+        corrent = placePoint === 'Q'
+    } else  {
+        let placeNum = parseInt(placePoint)
+        let containerNum = parseInt(containerPoint)
+        corrent = placeNum < containerNum
+    }
+
+    log('corrent', corrent)
+    return corrent
+}
+
 const isRightColor = (placeColor, containerColor) => {
     let spade = placeColor === 'spade'
     let heart = placeColor === 'heart'
@@ -32,7 +58,8 @@ const isRightPlace = (placeEle, container ) => {
     let placeId = placeEle.dataset.id
     let placeColor = placeEle.dataset.color
     let rightColor = isRightColor(placeColor, color)
-    log('rightColor', rightColor)
+
+    let rightNum = isRightPoint(parseInt(placeId), parseInt(id))
 
     return isCardEle
 }
