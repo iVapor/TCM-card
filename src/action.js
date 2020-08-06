@@ -124,7 +124,7 @@ const isPointStack = (dragEle, placeEle) => {
     return pass
 }
 
-const changeStackData = (dragEle, placeEle) => {
+const changeStackOpeate = (dragEle, placeEle) => {
     let dragLocation = dragEle.dataset.location
     let dragId = dragEle.dataset.id
     let dragArea = dragEle.dataset.area
@@ -134,10 +134,23 @@ const changeStackData = (dragEle, placeEle) => {
         removeRepo(dragId)
     }
 
-
     let placeId = placeEle.dataset.id
     let placeLocation = placeEle.dataset.location
     addOperateFront(placeLocation, placeId)
+}
+
+const changeStackPoint = (dragEle, placeEle) => {
+    let dragLocation = dragEle.dataset.location
+    let dragId = dragEle.dataset.id
+    let dragArea = dragEle.dataset.area
+    if (dragArea === 'operateArea') {
+        removeOperateFront(dragLocation, dragId)
+    } else if (dragArea === 'displayArea') {
+        removeRepo(dragId)
+    }
+
+    let placeLocation = placeEle.dataset.location
+    addPointCard(placeLocation, parseInt(dragId))
 }
 
 /**
@@ -161,7 +174,7 @@ const placeEmptyOperate = (dragEle, placeEle) => {
         placeEle.appendChild(dragEle)
 
         changeDragData(dragEle, placeEle)
-        changeStackData(dragEle, placeEle)
+        changeStackOpeate(dragEle, placeEle)
     }
 }
 
@@ -187,7 +200,7 @@ const putOperateArea = (dragEle, placeEle) => {
 
         container.appendChild(dragEle)
         changeDragData(dragEle, placeEle)
-        changeStackData(dragEle, placeEle)
+        changeStackOpeate(dragEle, placeEle)
     }
 }
 
@@ -208,9 +221,7 @@ const putPointArea = (dragEle, placeEle) => {
 
         container.appendChild(dragEle)
         changeDragData(dragEle, placeEle)
-        changeStackData(dragEle, placeEle)
-    } else if (placeCard) {
-
+        changeStackPoint(dragEle, placeEle)
     }
 }
 
@@ -267,8 +278,32 @@ const removeRepo = (cardId) => {
 }
 
 const addOperateFront = (location, id) => {
+    log('addOperateFront')
     let CurrentStack = window.operateArea[location]
+    log('CurrentStack', CurrentStack)
     CurrentStack.addFront(id)
+    log('CurrentStack', CurrentStack)
+}
+
+const initPointData = () => {
+    let container = []
+    for (let i = 0; i < 4; i++) {
+        let eachStack = new PointCard()
+        container.push(eachStack)
+    }
+
+    window.pointArea = container
+}
+const addPointCard = (location, id) => {
+    log('addPointCard',)
+    let isEmpty = window.pointArea.length === 0
+    if (isEmpty) {
+        initPointData()
+    }
+    let CurrentStack = window.pointArea[location]
+    log('jCurrentStack', CurrentStack)
+    CurrentStack.addCard(id)
+    log('CurrentStack', CurrentStack)
 }
 
 /**
