@@ -78,7 +78,7 @@ const createBackCard = (index, id) => {
 
 /**
  * 创建卡面
- * @param area 卡牌在哪个区域。展示区域：displayArea，操作区域：operateArea，放置区域： placeArea
+ * @param area 卡牌在哪个区域。展示区域：displayArea，操作区域：operateArea，得分区域： pointArea
  * @param location 卡牌在区域中的位置，展示区域： 0，操作区域：1 - 7，放置区域：0 - 3.
  * @param id
  * @return {string}

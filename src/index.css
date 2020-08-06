@@ -123,10 +123,10 @@ h1 {
     color: #232323;
 }
 
-.card-place {
+.point-container {
     box-sizing: border-box;
-    width: 152px;
-    height: 228px;
+    width: 156px;
+    height: 232px;
     border: 2px solid white;
     border-radius:8px;
 }

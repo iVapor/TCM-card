@@ -1,5 +1,5 @@
 
-const isRightPoint = (placeId, containerId) => {
+const isOrderOperate = (placeId, containerId) => {
     let placePoint = getCardData(placeId).point
     let containerPoint = getCardData(containerId).point
 
@@ -21,6 +21,28 @@ const isRightPoint = (placeId, containerId) => {
     return corrent
 }
 
+const isOrderPoint = (dragId, placeId) => {
+    let dragPoint = getCardData(dragId).point
+    let placePoint = getCardData(placeId).point
+
+    let correct = false
+    if (placePoint === 'A') {
+        correct = dragPoint === '2'
+    } else if (placePoint === '10') {
+        correct = dragPoint === 'J'
+    } else if (placePoint === 'J') {
+        correct = dragPoint === 'Q'
+    } else if (placePoint === 'Q') {
+        correct = dragPoint === 'K'
+    } else  {
+        let dragNum = parseInt(dragPoint)
+        let placeNum = parseInt(placePoint)
+        correct = dragNum > placeNum
+    }
+
+    return correct
+}
+
 const isRightColor = (placeColor, containerColor) => {
     let spade = placeColor === 'spade'
     let heart = placeColor === 'heart'
@@ -38,6 +60,16 @@ const isRightColor = (placeColor, containerColor) => {
 }
 
 /**
+ * 花色相同才能放置
+ * @param dragColor
+ * @param placeColor
+ * @return {boolean}
+ */
+const isPointColor = (dragColor, placeColor) => {
+    return dragColor === placeColor
+}
+
+/**
  * 判断两张卡牌能否堆叠
  * @param dragEle 鼠标拖动的元素
  * @param placeEle 被放置的元素
@@ -52,17 +84,43 @@ const isRightPlace = (dragEle, placeEle) => {
 
     let { area, id, location, color } = placeEle.dataset
 
-    let cardContent =
-        placeEle.classList.contains("card-front")
+    let cardContent = placeEle.classList.contains("card-front")
     let isCardEle = area === 'operateArea' && cardContent
 
     let placeId = dragEle.dataset.id
     let placeColor = dragEle.dataset.color
     let rightColor = isRightColor(placeColor, color)
 
-    let rightNum = isRightPoint(parseInt(placeId), parseInt(id))
+    let rightNum = isOrderOperate(parseInt(placeId), parseInt(id))
 
     let pass = true || isCardEle && rightColor && rightNum
+    return pass
+}
+
+/**
+ * 得分区域，堆叠规则
+ */
+const isPointStack = (dragEle, placeEle) => {
+    // 放置到纸牌的内容上
+    let cardInside = placeEle.classList.contains("content-card")
+    if (cardInside) {
+        placeEle = placeEle.parentNode
+    }
+
+    let { area, id, location, color } = placeEle.dataset
+    let isPointContainer = id === undefined
+    if (isPointContainer) {
+        return
+    }
+
+    let dragId = dragEle.dataset.id
+    let dragColor = dragEle.dataset.color
+    let rightColor = isPointColor(dragColor, color)
+
+    let rightNum = isOrderPoint(parseInt(dragId), parseInt(id))
+
+    let pass = rightColor && rightNum
+
     return pass
 }
 
@@ -88,10 +146,10 @@ const changeStackData = (dragEle, placeEle) => {
  * @param placeEle
  */
 const changeDragData = (dragEle, placeEle) => {
-    let placeArea = placeEle.dataset.area
+    let pointArea = placeEle.dataset.area
     let placeLocation = placeEle.dataset.location
 
-    dragEle.dataset.area = placeArea
+    dragEle.dataset.area = pointArea
     dragEle.dataset.location = placeLocation
 }
 
@@ -112,21 +170,47 @@ const placeEmptyOperate = (dragEle, placeEle) => {
  * @param dragEle
  * @param placeEle
  */
-const placeOperateCard = (dragEle, placeEle) => {
+const putOperateArea = (dragEle, placeEle) => {
     let placeCard = isRightPlace(dragEle, placeEle)
-    if (placeCard) {
-        let placeContent = placeEle.classList.contains("content-card")
-        if (placeContent) {
-            placeEle = placeEle.parentNode
+    // 操作区域的卡牌容器
+    let operateContainer = placeEle.classList.contains("operate-container")
+
+    if (placeCard || operateContainer) {
+        dragEle.parentNode.removeChild(dragEle)
+        let container = placeEle
+
+        // 牌堆容器，如果牌堆为空，直接放入容器。否则，父元素的父元素才是容器
+        let cardInside = placeEle.classList.contains("content-card")
+        if (cardInside) {
+            container = placeEle.parentNode.parentNode
         }
 
-        // event.target.style.background = ""
-        dragEle.parentNode.removeChild(dragEle)
-        // 牌堆容器
-        let container = placeEle.parentNode
         container.appendChild(dragEle)
         changeDragData(dragEle, placeEle)
         changeStackData(dragEle, placeEle)
+    }
+}
+
+const putPointArea = (dragEle, placeEle) => {
+    let placeCard = isPointStack(dragEle, placeEle)
+    // 操作区域的卡牌容器
+    let pointContainer = placeEle.classList.contains("point-container")
+    log('pointContainer', pointContainer)
+    if (pointContainer || placeCard ) {
+        dragEle.parentNode.removeChild(dragEle)
+        let container = placeEle
+
+        // 牌堆容器，如果牌堆为空，直接放入容器。否则，父元素的父元素才是容器
+        let cardInside = placeEle.classList.contains("content-card")
+        if (cardInside) {
+            container = placeEle.parentNode.parentNode
+        }
+
+        container.appendChild(dragEle)
+        changeDragData(dragEle, placeEle)
+        changeStackData(dragEle, placeEle)
+    } else if (placeCard) {
+
     }
 }
 
@@ -135,7 +219,6 @@ const dragCard = () => {
 
     document.addEventListener("dragstart", function( event ) {
         // 保存拖动元素的引用(ref.)
-        log('dragstart')
         dragged = event.target;
         log('dragged', dragged)
         // 使其半透明
@@ -152,10 +235,17 @@ const dragCard = () => {
         event.preventDefault();
         // 将拖动的元素到所选择的放置目标节点中
         let placeEle = event.target
+        let area = placeEle.dataset.area
 
-        placeEmptyOperate(dragged, placeEle)
+        log('area', area)
+        if (area === 'operateArea') {
+            putOperateArea(dragged, placeEle)
+        } else if (area === 'pointArea') {
+            log('in pointarea')
+            putPointArea(dragged, placeEle)
+        }
 
-        placeOperateCard(dragged, placeEle)
+
 
     }, false);
 }
