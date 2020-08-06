@@ -119,7 +119,7 @@ const isPointStack = (dragEle, placeEle) => {
 
     let rightNum = isOrderPoint(parseInt(dragId), parseInt(id))
 
-    let pass = rightColor && rightNum
+    let pass = true || rightColor && rightNum
 
     return pass
 }
@@ -143,6 +143,7 @@ const changeStackPoint = (dragEle, placeEle) => {
     let dragLocation = dragEle.dataset.location
     let dragId = dragEle.dataset.id
     let dragArea = dragEle.dataset.area
+    log('dragArea', dragArea)
     if (dragArea === 'operateArea') {
         removeOperateFront(dragLocation, dragId)
     } else if (dragArea === 'displayArea') {
@@ -220,8 +221,8 @@ const putPointArea = (dragEle, placeEle) => {
         }
 
         container.appendChild(dragEle)
-        changeDragData(dragEle, placeEle)
         changeStackPoint(dragEle, placeEle)
+        changeDragData(dragEle, placeEle)
     }
 }
 
@@ -246,7 +247,7 @@ const dragCard = () => {
         event.preventDefault();
         // 将拖动的元素到所选择的放置目标节点中
         let placeEle = event.target
-        let area = placeEle.dataset.area
+        let area = placeEle.dataset.area || placeEle.parentNode.dataset.area
 
         log('area', area)
         if (area === 'operateArea') {
@@ -267,8 +268,11 @@ const removeOperateBack = (location, id) => {
 }
 
 const removeOperateFront = (location, id) => {
+    log('removeOperateFront')
     let CurrentStack = window.operateArea[location]
+    log('CurrentStack', CurrentStack)
     CurrentStack.removeFront(id)
+    log('CurrentStack', CurrentStack)
 }
 
 const removeRepo = (cardId) => {

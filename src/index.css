@@ -124,11 +124,18 @@ h1 {
 }
 
 .point-container {
+    position: relative;
     box-sizing: border-box;
     width: 156px;
     height: 232px;
     border: 2px solid white;
     border-radius:8px;
+}
+
+.point-container .card-front {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .color-card .icon_diamond {
