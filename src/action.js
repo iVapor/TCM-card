@@ -1,24 +1,24 @@
 
-const isOrderOperate = (placeId, containerId) => {
-    let placePoint = getCardData(placeId).point
-    let containerPoint = getCardData(containerId).point
+const isOrderOperate = (dragId, placeId) => {
+    let dragPoint = getCardData(dragId).point
+    let containerPoint = getCardData(placeId).point
 
-    let corrent = false
+    let correct = false
     if (containerPoint === '2') {
-        corrent = placePoint === 'A'
+        correct = dragPoint === 'A'
     } else if (containerPoint === 'J') {
-        corrent = placePoint === '10'
+        correct = dragPoint === '10'
     } else if (containerPoint === 'Q') {
-        corrent = placePoint === 'J'
+        correct = dragPoint === 'J'
     } else if (containerPoint === 'K') {
-        corrent = placePoint === 'Q'
+        correct = dragPoint === 'Q'
     } else  {
-        let placeNum = parseInt(placePoint)
+        let placeNum = parseInt(dragPoint)
         let containerNum = parseInt(containerPoint)
-        corrent = placeNum < containerNum
+        correct = placeNum < containerNum
     }
 
-    return corrent
+    return correct
 }
 
 const isOrderPoint = (dragId, placeId) => {
@@ -88,11 +88,11 @@ const isRightPlace = (dragEle, placeEle) => {
     let cardContent = placeEle.classList.contains("card-front")
     let isCardEle = area === 'operateArea' && cardContent
 
-    let placeId = dragEle.dataset.id
-    let placeColor = dragEle.dataset.color
-    let rightColor = isRightColor(placeColor, color)
+    let dragId = dragEle.dataset.id
+    let dragColor = dragEle.dataset.color
+    let rightColor = isRightColor(dragColor, color)
 
-    let rightNum = isOrderOperate(parseInt(placeId), parseInt(id))
+    let rightNum = isOrderOperate(parseInt(dragId), parseInt(id))
 
     let pass = true || isCardEle && rightColor && rightNum
     return pass
@@ -262,8 +262,6 @@ const dragCard = () => {
             let allFront = createMoveFront(dragged)
             dragged = allFront
         }
-        log('dragged', dragged)
-        // 使其半透明
     }, false);
 
     /* 放置目标元素时触发事件 */
@@ -279,6 +277,7 @@ const dragCard = () => {
         let placeEle = event.target
         let area = placeEle.dataset.area || placeEle.parentNode.dataset.area
 
+        log('in drop, dragged', dragged)
         if (area === 'operateArea') {
             putOperateArea(dragged, placeEle)
         } else if (area === 'pointArea') {
