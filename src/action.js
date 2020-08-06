@@ -128,29 +128,32 @@ const changeStackOpeate = (dragEle, placeEle) => {
     let dragLocation = dragEle.dataset.location
     let dragId = dragEle.dataset.id
     let dragArea = dragEle.dataset.area
+
     if (dragArea === 'operateArea') {
         removeOperateFront(dragLocation, dragId)
     } else if (dragArea === 'displayArea') {
         removeRepo(dragId)
+    } else if (dragArea === 'pointArea') {
+        removePointCard(dragLocation, dragId)
     }
 
-    let placeId = placeEle.dataset.id
-    let placeLocation = placeEle.dataset.location
-    addOperateFront(placeLocation, placeId)
+    let placeLocation = placeEle.dataset.location || placeEle.parentNode.dataset.location
+
+    addOperateFront(placeLocation, parseInt(dragId))
 }
 
 const changeStackPoint = (dragEle, placeEle) => {
     let dragLocation = dragEle.dataset.location
     let dragId = dragEle.dataset.id
     let dragArea = dragEle.dataset.area
-    log('dragArea', dragArea)
+
     if (dragArea === 'operateArea') {
         removeOperateFront(dragLocation, dragId)
     } else if (dragArea === 'displayArea') {
         removeRepo(dragId)
     }
 
-    let placeLocation = placeEle.dataset.location
+    let placeLocation = placeEle.dataset.location || placeEle.parentNode.dataset.location
     addPointCard(placeLocation, parseInt(dragId))
 }
 
@@ -160,8 +163,8 @@ const changeStackPoint = (dragEle, placeEle) => {
  * @param placeEle
  */
 const changeDragData = (dragEle, placeEle) => {
-    let pointArea = placeEle.dataset.area
-    let placeLocation = placeEle.dataset.location
+    let pointArea = placeEle.dataset.area || placeEle.parentNode.dataset.area
+    let placeLocation = placeEle.dataset.location || placeEle.parentNode.dataset.location
 
     dragEle.dataset.area = pointArea
     dragEle.dataset.location = placeLocation
@@ -200,8 +203,8 @@ const putOperateArea = (dragEle, placeEle) => {
         }
 
         container.appendChild(dragEle)
-        changeDragData(dragEle, placeEle)
         changeStackOpeate(dragEle, placeEle)
+        changeDragData(dragEle, placeEle)
     }
 }
 
@@ -209,7 +212,7 @@ const putPointArea = (dragEle, placeEle) => {
     let placeCard = isPointStack(dragEle, placeEle)
     // 操作区域的卡牌容器
     let pointContainer = placeEle.classList.contains("point-container")
-    log('pointContainer', pointContainer)
+
     if (pointContainer || placeCard ) {
         dragEle.parentNode.removeChild(dragEle)
         let container = placeEle
@@ -298,15 +301,21 @@ const initPointData = () => {
 
     window.pointArea = container
 }
+
 const addPointCard = (location, id) => {
-    log('addPointCard',)
     let isEmpty = window.pointArea.length === 0
     if (isEmpty) {
         initPointData()
     }
     let CurrentStack = window.pointArea[location]
-    log('jCurrentStack', CurrentStack)
     CurrentStack.addCard(id)
+}
+
+const removePointCard = (location, id) => {
+    log('removeOperateFront')
+    let CurrentStack = window.pointArea[location]
+    log('CurrentStack', CurrentStack)
+    CurrentStack.removeCard(id)
     log('CurrentStack', CurrentStack)
 }
 
