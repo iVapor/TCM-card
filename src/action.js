@@ -188,7 +188,6 @@ const nextOperateEle = (dragLocation, cardId) => {
     let nextSelector = `[data-location="${ dragLocation }"][data-id="${ cardId }"]`
 
     let nextCard = operateArea.querySelector(nextSelector)
-    log('nextCard', nextCard)
     return nextCard
 }
 
@@ -230,6 +229,32 @@ const putOperateArea = (dragEle, placeEle) => {
     }
 }
 
+const showSuccessPop = () => {
+    Swal.fire({
+        title: '游戏通关',
+        text: '恭喜你！ 🎉🎉🎉',
+        icon: 'success',
+        confirmButtonText: '再来一局'
+    }).then((result) => {
+        if (result.value) {
+            // clearGame()
+            // game()
+        }
+    })
+}
+
+const passGame = () => {
+    let count = 0
+    window.pointArea.forEach(item => {
+        count += item.pointCard.length
+    })
+
+    let pass = count === 52
+    if (pass) {
+        showSuccessPop()
+    }
+}
+
 const putPointArea = (dragEle, placeEle) => {
     let placeCard = isPointStack(dragEle, placeEle)
     // 操作区域的卡牌容器
@@ -249,6 +274,7 @@ const putPointArea = (dragEle, placeEle) => {
         changeStackPoint(dragEle, placeEle)
         changeDragData(dragEle, placeEle)
     }
+    passGame()
 }
 
 const getStackId = (dragEle) => {
@@ -344,6 +370,8 @@ const removeRepo = (cardId) => {
     let repo = window.repo
     let cardIndex = repo.findIndex(item => item === cardId)
     repo.splice(cardIndex, 1)
+    log('repo', repo)
+    log('window.repo', window.repo)
 }
 
 const addOperateFront = (location, id) => {
