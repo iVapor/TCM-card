@@ -183,6 +183,15 @@ const placeEmptyOperate = (dragEle, placeEle) => {
     }
 }
 
+const nextOperateEle = (dragLocation, cardId) => {
+    let operateArea = eleSelector('#operateArea')
+    let nextSelector = `[data-location="${ dragLocation }"][data-id="${ cardId }"]`
+
+    let nextCard = operateArea.querySelector(nextSelector)
+    log('nextCard', nextCard)
+    return nextCard
+}
+
 /**
  * 将卡牌移动到操作区域的卡牌上
  * @param dragEle
@@ -194,18 +203,30 @@ const putOperateArea = (dragEle, placeEle) => {
     let operateContainer = placeEle.classList.contains("operate-container")
 
     if (placeCard || operateContainer) {
-        dragEle.parentNode.removeChild(dragEle)
-        let container = placeEle
+        let stackCardId = getStackId(dragEle)
+        for (let i = 0; i < stackCardId.length; i++) {
+            let dragLocation = dragEle.dataset.location
 
-        // 牌堆容器，如果牌堆为空，直接放入容器。否则，父元素的父元素才是容器
-        let cardInside = placeEle.classList.contains("content-card")
-        if (cardInside) {
-            container = placeEle.parentNode.parentNode
+            dragEle.parentNode.removeChild(dragEle)
+            let container = placeEle
+
+            // 牌堆容器，如果牌堆为空，直接放入容器。否则，父元素的父元素才是容器
+            let cardInside = placeEle.classList.contains("content-card")
+            if (cardInside) {
+                container = placeEle.parentNode.parentNode
+            }
+
+            container.appendChild(dragEle)
+            changeStackOpeate(dragEle, placeEle)
+            changeDragData(dragEle, placeEle)
+
+            let notLast = i !== stackCardId.length - 1
+            if (notLast) {
+                let nextId = stackCardId[i + 1]
+                dragEle = nextOperateEle(dragLocation, nextId)
+            }
         }
 
-        container.appendChild(dragEle)
-        changeStackOpeate(dragEle, placeEle)
-        changeDragData(dragEle, placeEle)
     }
 }
 
@@ -230,15 +251,33 @@ const putPointArea = (dragEle, placeEle) => {
     }
 }
 
+const getStackId = (dragEle) => {
+    let { id, area, location } = dragEle.dataset
+    let idNum = parseInt(id)
+    let CurrentStack = window.operateArea[location]
+    let frontList = CurrentStack.frontList
+
+    log('frontList', frontList)
+    log('idNum', idNum)
+    let index = frontList.findIndex(item => {
+        return item === idNum
+    })
+
+    return frontList.slice(index)
+}
+
 const checkBatchDrag = (dragEle) => {
     let { id, area, location } = dragEle.dataset
     // 只有操作区域有批量拖动
     if (area !== 'operateArea') {
-        return
+        return false
     }
-    let isFirst = isFirstFront(location, parseInt(id))
+    let CurrentStack = window.operateArea[location]
+    let frontList = CurrentStack.frontList
 
-    return isFirst
+    let last = frontList[frontList.length - 1]
+    // 只要不是最后一个就是批量拖动
+    return last !== parseInt(id)
 }
 
 const createMoveFront = (dragEle) => {
@@ -254,14 +293,6 @@ const dragCard = () => {
     document.addEventListener("dragstart", function( event ) {
         // 保存拖动元素的引用(ref.)
         dragged = event.target
-        let batch = checkBatchDrag(dragged)
-
-        log('batch', batch)
-        log('before if, dragged', dragged)
-        if (batch) {
-            let allFront = createMoveFront(dragged)
-            dragged = allFront
-        }
     }, false);
 
     /* 放置目标元素时触发事件 */
@@ -304,12 +335,9 @@ const isFirstFront = (location, id) => {
     let CurrentStack = window.operateArea[location]
     let frontList = CurrentStack.frontList
 
-    if (frontList.length === 1) {
-        return false
-    }
-    let first = frontList[0]
-
-    return first === id
+    let last = frontList[frontList.length - 1]
+    // 只要不是最后一个就是批量拖动
+    return last !== id
 }
 
 const removeRepo = (cardId) => {
