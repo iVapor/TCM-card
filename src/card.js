@@ -5,7 +5,10 @@ class OperateCard {
         this.frontList = front
         this.backList = back
     }
-
+    isFirstFront(card) {
+        let first = this.frontList[0]
+        return first === card
+    }
     addFront(card) {
         let current = this.frontList.push(card)
         return current

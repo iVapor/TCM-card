@@ -129,6 +129,16 @@ const createOperateEle = (type, index, id) => {
     return ele
 }
 
+const createFrontStack = (allContainer, cardClass, index) => {
+    let frontList = cardClass.frontList
+    for (let j = 0; j < frontList.length; j++) {
+        let eachCard = frontList[j]
+        let ele = createOperateEle('front', index, eachCard)
+        allContainer += ele
+    }
+
+    return allContainer
+}
 
 const createOperateStack = (index) => {
     let cardClass = window.operateArea[index]
@@ -141,12 +151,7 @@ const createOperateStack = (index) => {
         allContainer += ele
     }
 
-    let frontList = cardClass.frontList
-    for (let j = 0; j < frontList.length; j++) {
-        let eachCard = frontList[j]
-        let ele = createOperateEle('front', index, eachCard)
-        allContainer += ele
-    }
+    allContainer = createFrontStack(allContainer, cardClass, index)
 
     return allContainer
 }

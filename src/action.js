@@ -76,6 +76,7 @@ const isPointColor = (dragColor, placeColor) => {
  * @return {boolean|boolean}
  */
 const isRightPlace = (dragEle, placeEle) => {
+    log('dragEle', dragEle)
     // 放置到纸牌的内容上
     let placeContent = placeEle.classList.contains("content-card")
     if (placeContent) {
@@ -229,12 +230,38 @@ const putPointArea = (dragEle, placeEle) => {
     }
 }
 
+const checkBatchDrag = (dragEle) => {
+    let { id, area, location } = dragEle.dataset
+    // 只有操作区域有批量拖动
+    if (area !== 'operateArea') {
+        return
+    }
+    let isFirst = isFirstFront(location, parseInt(id))
+
+    return isFirst
+}
+
+const createMoveFront = (dragEle) => {
+    let { id, area, location } = dragEle.dataset
+    let ele = createFrontStack('', window.operateArea[location], location)
+
+    return ele
+}
+
 const dragCard = () => {
     var dragged;
 
     document.addEventListener("dragstart", function( event ) {
         // 保存拖动元素的引用(ref.)
-        dragged = event.target;
+        dragged = event.target
+        let batch = checkBatchDrag(dragged)
+
+        log('batch', batch)
+        log('before if, dragged', dragged)
+        if (batch) {
+            let allFront = createMoveFront(dragged)
+            dragged = allFront
+        }
         log('dragged', dragged)
         // 使其半透明
     }, false);
@@ -252,15 +279,11 @@ const dragCard = () => {
         let placeEle = event.target
         let area = placeEle.dataset.area || placeEle.parentNode.dataset.area
 
-        log('area', area)
         if (area === 'operateArea') {
             putOperateArea(dragged, placeEle)
         } else if (area === 'pointArea') {
-            log('in pointarea')
             putPointArea(dragged, placeEle)
         }
-
-
 
     }, false);
 }
@@ -276,6 +299,18 @@ const removeOperateFront = (location, id) => {
     log('CurrentStack', CurrentStack)
     CurrentStack.removeFront(id)
     log('CurrentStack', CurrentStack)
+}
+
+const isFirstFront = (location, id) => {
+    let CurrentStack = window.operateArea[location]
+    let frontList = CurrentStack.frontList
+
+    if (frontList.length === 1) {
+        return false
+    }
+    let first = frontList[0]
+
+    return first === id
 }
 
 const removeRepo = (cardId) => {
