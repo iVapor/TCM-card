@@ -76,7 +76,6 @@ const isPointColor = (dragColor, placeColor) => {
  * @return {boolean|boolean}
  */
 const isRightPlace = (dragEle, placeEle) => {
-    log('dragEle', dragEle)
     // 放置到纸牌的内容上
     let placeContent = placeEle.classList.contains("content-card")
     if (placeContent) {
@@ -334,7 +333,6 @@ const dragCard = () => {
         let placeEle = event.target
         let area = placeEle.dataset.area || placeEle.parentNode.dataset.area
 
-        log('in drop, dragged', dragged)
         if (area === 'operateArea') {
             putOperateArea(dragged, placeEle)
         } else if (area === 'pointArea') {

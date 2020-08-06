@@ -12,15 +12,6 @@ const createRandomId = (idList) => {
     return cardId
 }
 
-// const createRandomIndex = (currentCard) => {
-//     let length = createRandomLength()
-//     log('lengh', length)
-//     for(let i = 0; i < 30; i++) {
-//
-//     }
-// }
-
-
 const createCardList = (idList, length) => {
     let tempList = []
     for(let i = 0; i < length; i++) {
