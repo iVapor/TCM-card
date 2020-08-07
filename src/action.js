@@ -83,6 +83,10 @@ const isRightPlace = (dragEle, placeEle) => {
     }
 
     let { area, id, location, color } = placeEle.dataset
+    // 放置到空的容器元素
+    if (id === undefined) {
+        return
+    }
 
     let cardContent = placeEle.classList.contains("card-front")
     let isCardEle = area === 'operateArea' && cardContent
