@@ -1,3 +1,8 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
     margin: 0;
     width:28px;
@@ -11,25 +16,33 @@ body {
     background-repeat: repeat;
 }
 
-h1 {
+.tcm-title {
+    width: 100vw;
+    margin: 0 auto;
     text-align: center;
-    padding-bottom: 20px;
+    font-weight: bold;
+    /* padding-bottom: 20px; */
     color: white;
     font-size: 30px;
     letter-spacing: 1rem;
+    line-height: 40px;
+    background: #000000a3;
+    /* height: 40px; */
+    padding: 10px;
 }
+
 .desk {
     /*background: greenyellow;*/
     min-width: 1400px;
     min-height: 800px;
+    padding: 40px;
 }
 
-.cover {
-    position: relative;
-    padding: 40px;
-    padding-top: 20px;
-    /*background: hsla(0, 0%, 100%, 0.62);*/
-}
+/*.cover {*/
+/*    position: relative;*/
+/*    padding: 40px;*/
+/*    !*background: hsla(0, 0%, 100%, 0.62);*!*/
+/*}*/
 
 .card-row {
     display: grid;
