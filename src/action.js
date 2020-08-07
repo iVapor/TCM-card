@@ -93,7 +93,7 @@ const isRightPlace = (dragEle, placeEle) => {
 
     let rightNum = isOrderOperate(parseInt(dragId), parseInt(id))
 
-    let pass = true || isCardEle && rightColor && rightNum
+    let pass = isCardEle && rightColor && rightNum
     return pass
 }
 
@@ -119,7 +119,7 @@ const isPointStack = (dragEle, placeEle) => {
 
     let rightNum = isOrderPoint(parseInt(dragId), parseInt(id))
 
-    let pass = true || rightColor && rightNum
+    let pass = rightColor && rightNum
 
     return pass
 }
@@ -481,13 +481,6 @@ const analysisRetortPop = (type, cardId) => {
     Swal.fire({
         title: title,
         text: cardData[type],
-        // icon: 'info',
-        // confirmButtonText: '再来一局'
-    }).then((result) => {
-        if (result.value) {
-            // clearGame()
-            // game()
-        }
     })
 }
 
