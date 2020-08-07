@@ -95,8 +95,8 @@ const createFrontCard = (area, location, id) => {
         </div>
         <div class="content-card">${ cardData.view }</div>
         <div class="action-btn-container">
-            <div class="action-btn">分析</div>
-            <div class="action-btn">反驳</div>
+            <div data-type="analysis" class="action-btn">分析</div>
+            <div data-type="retort" class="action-btn">反驳</div>
         </div>
         <div class="num-reverse">
             <div class="num-card ${ redText }">${ cardData.point }</div>

@@ -445,6 +445,7 @@ const showOperateCard = () => {
             let cardLocation = parseInt(location)
             showOperateBack(cardLocation, cardId, self)
         }
+        showAnalysisRetort()
     })
 }
 
@@ -467,7 +468,43 @@ const showDisplayCard = () => {
 
         let cardFront = createFrontCard('displayArea', 0, cardId)
         displayArea.innerHTML = cardFront
+
+        showAnalysisRetort()
     })
+}
+
+
+const analysisRetortPop = (type, cardId) => {
+    let cardData = getCardData(cardId)
+
+    let title = type === 'analysis' ? '分析' : '反驳'
+    Swal.fire({
+        title: title,
+        text: cardData[type],
+        // icon: 'info',
+        // confirmButtonText: '再来一局'
+    }).then((result) => {
+        if (result.value) {
+            // clearGame()
+            // game()
+        }
+    })
+}
+
+const showAnalysisRetort = () => {
+    let allBtn = eleSelectorAll('.action-btn-container')
+    for (let i = 0; i < allBtn.length; i++) {
+        let eachContainer = allBtn[i]
+        let card = eachContainer.parentNode.dataset.id
+
+        bindEleEvent(eachContainer, 'click', function (e) {
+            let actionBtn = e.target
+            if (actionBtn.classList.contains('action-btn')) {
+                let btnType = actionBtn.dataset.type
+                analysisRetortPop(btnType, parseInt(card))
+            }
+        })
+    }
 }
 
 const showCard = () => {
