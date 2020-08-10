@@ -123,7 +123,7 @@ const isPointStack = (dragEle, placeEle) => {
 
     let rightNum = isOrderPoint(parseInt(dragId), parseInt(id))
 
-    let pass = rightColor && rightNum
+    let pass = true || rightColor && rightNum
 
     return pass
 }
@@ -132,11 +132,13 @@ const changeStackOpeate = (dragEle, placeEle) => {
     let dragLocation = dragEle.dataset.location
     let dragId = dragEle.dataset.id
     let dragArea = dragEle.dataset.area
+    log('dragArea', dragArea)
 
     if (dragArea === 'operateArea') {
         removeOperateFront(dragLocation, dragId)
     } else if (dragArea === 'displayArea') {
         removeRepo(dragId)
+        showEmptyRepo()
     } else if (dragArea === 'pointArea') {
         removePointCard(dragLocation, dragId)
     }
@@ -148,17 +150,18 @@ const changeStackOpeate = (dragEle, placeEle) => {
 
 const changeStackPoint = (dragEle, placeEle) => {
     let dragLocation = dragEle.dataset.location
-    let dragId = dragEle.dataset.id
+    let dragId = parseInt(dragEle.dataset.id)
     let dragArea = dragEle.dataset.area
 
     if (dragArea === 'operateArea') {
         removeOperateFront(dragLocation, dragId)
     } else if (dragArea === 'displayArea') {
         removeRepo(dragId)
+        showEmptyRepo()
     }
 
     let placeLocation = placeEle.dataset.location || placeEle.parentNode.dataset.location
-    addPointCard(placeLocation, parseInt(dragId))
+    addPointCard(placeLocation, dragId)
 }
 
 /**
@@ -372,8 +375,20 @@ const removeRepo = (cardId) => {
     let repo = window.repo
     let cardIndex = repo.findIndex(item => item === cardId)
     repo.splice(cardIndex, 1)
-    log('repo', repo)
-    log('window.repo', window.repo)
+
+    window.repo = repo
+}
+
+const showEmptyRepo = () => {
+    let notEmpty = window.repo.length !== 0
+    if (notEmpty) {
+        return
+    }
+
+    let repoEle = eleSelector('#repo')
+    repoEle.classList.add('hide-repo')
+    let emptyEle = eleSelector('.empty-repo')
+    emptyEle.classList.add('show-empty-repo')
 }
 
 const addOperateFront = (location, id) => {

@@ -75,6 +75,35 @@ body {
     /*background:linear-gradient(225deg, rgb(229, 226, 217) 0%, rgb(243, 223, 189) 100%);*/
 }
 
+.hide-repo {
+    display: none;
+}
+
+.empty-repo {
+    display: none;
+    width: 152px;
+    height: 228px;
+    position: relative;
+    background: #000000ad;
+    border-radius:8px;
+}
+
+.show-empty-repo {
+    display: block;
+}
+
+.empty-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.empty-container .icon_empty {
+    color: white;
+    font-size: 40px;
+}
+
 .num-container {
     position: absolute;
     left: 6px;
@@ -186,3 +215,4 @@ body {
 .operate-container > .card-shape:not(:first-child) {
     margin-top: -180px;
 }
+
