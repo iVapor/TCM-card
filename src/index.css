@@ -17,17 +17,18 @@ body {
 }
 
 .tcm-title {
+    position: relative;
     width: 100vw;
     margin: 0 auto;
     text-align: center;
     font-weight: bold;
-    /* padding-bottom: 20px; */
+
     color: white;
     font-size: 30px;
     letter-spacing: 1rem;
     line-height: 40px;
+
     background: #000000a3;
-    /* height: 40px; */
     padding: 10px;
 }
 
@@ -38,11 +39,6 @@ body {
     padding: 40px;
 }
 
-/*.cover {*/
-/*    position: relative;*/
-/*    padding: 40px;*/
-/*    !*background: hsla(0, 0%, 100%, 0.62);*!*/
-/*}*/
 
 .card-row {
     display: grid;
@@ -72,7 +68,7 @@ body {
     padding: 10px;
     cursor: default;
     border: 1px solid #4d4c4cad;
-    /*background:linear-gradient(225deg, rgb(229, 226, 217) 0%, rgb(243, 223, 189) 100%);*/
+    /*background:linear-gradient(225deg, rgba(209, 225, 243, 0.99) 0%, rgba(235, 214, 233, 0.99) 100%);*/
 }
 
 .hide-repo {
