@@ -213,18 +213,11 @@ const putOperateArea = (dragEle, placeEle) => {
             let dragLocation = dragEle.dataset.location
 
             dragEle.parentNode.removeChild(dragEle)
-            let container = placeEle
-
-            // 牌堆容器，如果牌堆为空，直接放入容器。否则，父元素的父元素才是容器
-            let cardInside = placeEle.classList.contains("content-card")
-            if (cardInside) {
-                container = placeEle.parentNode.parentNode
-            }
-
-            container.appendChild(dragEle)
+            addCardEle('.operate-container', dragEle, placeEle)
             changeStackOpeate(dragEle, placeEle)
             changeDragData(dragEle, placeEle)
 
+            // 卡牌批量移动
             let notLast = i !== stackCardId.length - 1
             if (notLast) {
                 let nextId = stackCardId[i + 1]
@@ -261,6 +254,11 @@ const passGame = () => {
     }
 }
 
+const addCardEle = ( containerSel, dragEle, placeEle) => {
+    let cardContainer = placeEle.closest(containerSel)
+    cardContainer.appendChild(dragEle)
+}
+
 const putPointArea = (dragEle, placeEle) => {
     let placeCard = isPointStack(dragEle, placeEle)
     // 操作区域的卡牌容器
@@ -268,15 +266,7 @@ const putPointArea = (dragEle, placeEle) => {
 
     if (pointContainer || placeCard ) {
         dragEle.parentNode.removeChild(dragEle)
-        let container = placeEle
-
-        // 牌堆容器，如果牌堆为空，直接放入容器。否则，父元素的父元素才是容器
-        let cardInside = placeEle.classList.contains("content-card")
-        if (cardInside) {
-            container = placeEle.parentNode.parentNode
-        }
-
-        container.appendChild(dragEle)
+        addCardEle('.point-container', dragEle, placeEle)
         changeStackPoint(dragEle, placeEle)
         changeDragData(dragEle, placeEle)
     }
@@ -355,11 +345,8 @@ const removeOperateBack = (location, id) => {
 }
 
 const removeOperateFront = (location, id) => {
-    log('removeOperateFront')
     let CurrentStack = window.operateArea[location]
-    log('CurrentStack', CurrentStack)
     CurrentStack.removeFront(id)
-    log('CurrentStack', CurrentStack)
 }
 
 const isFirstFront = (location, id) => {
