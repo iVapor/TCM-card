@@ -123,7 +123,7 @@ const isPointStack = (dragEle, placeEle) => {
 
     let rightNum = isOrderPoint(parseInt(dragId), parseInt(id))
 
-    let pass = true || rightColor && rightNum
+    let pass = rightColor && rightNum
 
     return pass
 }
