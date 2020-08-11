@@ -321,11 +321,13 @@ const dragCard = () => {
     document.addEventListener("dragover", function( event ) {
         // 阻止默认动作以启用drop
         event.preventDefault();
+        log('dragover')
     }, false);
 
     document.addEventListener("drop", function( event ) {
         // 阻止默认动作（如打开一些元素的链接）
         event.preventDefault();
+        log('drop')
         // 将拖动的元素到所选择的放置目标节点中
         let placeEle = event.target
         let area = placeEle.dataset.area || placeEle.parentNode.dataset.area

@@ -5,7 +5,7 @@ const isCardList = (list, id) => {
 }
 
 const createRandomId = (idList) => {
-    let cardIndex =  Math.floor(Math.random() * Math.floor(idList.length))
+    let cardIndex =  Math.floor(Math.random() * idList.length)
     let cardId = idList[cardIndex]
     idList.splice(cardIndex, 1)
 
@@ -15,7 +15,6 @@ const createRandomId = (idList) => {
 const createCardList = (idList, length) => {
     let tempList = []
     for(let i = 0; i < length; i++) {
-
         let id = createRandomId(idList)
         tempList.push(id)
     }

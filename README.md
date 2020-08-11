@@ -1,6 +1,10 @@
 # TCM-card
 It's a klondike solitaire game. If you have player Microsoft Solitaire Collection, there is nothing you need to learn.
 
+## Preview
+![game preview](./src/img/TCM-card.gif)
+
+
 ## 中医纸牌
 中医在过去挽救了很多人的生命。但是，现在应该用更科学的方法。如何回击中医粉丝的一些谬论？
 
